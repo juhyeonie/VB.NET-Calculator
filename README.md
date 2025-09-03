@@ -33,7 +33,35 @@ A simple calculator built with **VB.Net** that supports both **mouse clicks** an
 ---
 
 ## 👨‍💻 Developer  
-- **Justine Pelgone**  
+- **Justine Pelgone**
+
+---
+# 🚀 What's New in This Calculator
+
+This version of the calculator has been **redesigned and improved** compared to the first version:
+
+## ✨ Improvements
+
+- **New Display** → Changed from a `TextBox` to a `Label`  
+  - Prevents user typing directly into the display  
+  - Stops text from overflowing outside the screen  
+
+- **No More Blue Button Highlight**  
+  - Buttons no longer stay selected after clicking  
+  - Prevents accidental input when pressing the **Space** key  
+
+- **Modern Layout with TableLayoutPanel**  
+  - Buttons are perfectly aligned in a grid  
+  - Layout automatically resizes with the form  
+
+- **Cleaner UI**  
+  - Calculator looks closer to a real phone/Windows calculator  
+  - Consistent button sizes and spacing  
+
+- **Responsive Design**  
+  - Works properly when resizing the window  
+  - Buttons and display adjust automatically  
+
 
 
 
