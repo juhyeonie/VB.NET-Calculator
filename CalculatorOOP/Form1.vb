@@ -8,28 +8,30 @@
 
     'Form load event
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        txtDisplay.Text = "0"
+        lblDisplay.Text = "0"
         Me.KeyPreview = True
     End Sub
 
     'Number button click events
     Private Sub btn_Click(sender As Object, e As EventArgs) Handles btn0.Click, btn1.Click, btn2.Click,
-        btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click, btnDecimal.Click
+    btn3.Click, btn4.Click, btn5.Click, btn6.Click, btn7.Click, btn8.Click, btn9.Click, btnDecimal.Click
 
-        If txtDisplay.Text = "0" Or blnOperatorClicked Then
-            txtDisplay.Clear()
+        If lblDisplay.Text = "0" Or blnOperatorClicked Then
+            lblDisplay.Text = ""
         End If
 
         blnOperatorClicked = False
         Dim button As Button = CType(sender, Button)
 
         If button.Text = "." Then
-            If Not txtDisplay.Text.Contains(".") Then
-                txtDisplay.Text &= button.Text
+            If Not lblDisplay.Text.Contains(".") Then
+                lblDisplay.Text &= button.Text
             End If
         Else
-            txtDisplay.Text &= button.Text
+            lblDisplay.Text &= button.Text
         End If
+
+        Me.ActiveControl = Nothing
     End Sub
 
     'Operator button click events
@@ -44,15 +46,18 @@
         If strOperator = "×" Then strOperator = "*"
         If strOperator = "÷" Then strOperator = "/"
 
-        Double.TryParse(txtDisplay.Text, dblFirstNumber)
-
+        Double.TryParse(lblDisplay.Text, dblFirstNumber)
         blnOperatorClicked = True
     End Sub
 
     'Equal button click event
     Private Sub btnEqual_Click(sender As Object, e As EventArgs) Handles btnEqual.Click
-        If Not Double.TryParse(txtDisplay.Text, dblSecondNumber) Then
-            txtDisplay.Text = "0"
+        If blnOperatorClicked Then
+            Return
+        End If
+
+        If Not Double.TryParse(lblDisplay.Text, dblSecondNumber) Then
+            lblDisplay.Text = "0"
             Return
         End If
 
@@ -65,7 +70,7 @@
                 dblResult = dblFirstNumber * dblSecondNumber
             Case "/"
                 If dblSecondNumber = 0 Then
-                    txtDisplay.Text = "Cannot divide by zero"
+                    lblDisplay.Text = "Cannot divide by zero"
                     blnOperatorClicked = True
                     strOperator = ""
                     Return
@@ -76,14 +81,15 @@
                 Return
         End Select
 
-        txtDisplay.Text = dblResult.ToString()
+        lblDisplay.Text = dblResult.ToString()
+        dblFirstNumber = dblResult
         blnOperatorClicked = True
         strOperator = ""
     End Sub
 
     'Clear button click event
     Private Sub btnClear_Click(sender As Object, e As EventArgs) Handles btnClear.Click
-        txtDisplay.Text = "0"
+        lblDisplay.Text = "0"
         dblFirstNumber = 0
         dblSecondNumber = 0
         strOperator = ""
@@ -92,8 +98,8 @@
 
     'Backspace button click event
     Private Sub btnBackspace_Click(sender As Object, e As EventArgs) Handles btnBackspace.Click
-        If txtDisplay.Text = "Cannot divide by zero" Then
-            txtDisplay.Text = "0"
+        If lblDisplay.Text = "Cannot divide by zero" Then
+            lblDisplay.Text = "0"
             dblFirstNumber = 0
             dblSecondNumber = 0
             strOperator = ""
@@ -101,10 +107,10 @@
             Return
         End If
 
-        If txtDisplay.Text.Length > 1 Then
-            txtDisplay.Text = txtDisplay.Text.Substring(0, txtDisplay.Text.Length - 1)
+        If lblDisplay.Text.Length > 1 Then
+            lblDisplay.Text = lblDisplay.Text.Substring(0, lblDisplay.Text.Length - 1)
         Else
-            txtDisplay.Text = "0"
+            lblDisplay.Text = "0"
         End If
     End Sub
 
@@ -141,8 +147,8 @@
             Case "."c : btnDecimal.PerformClick()
 
             Case "-"c
-                If txtDisplay.Text = "0" Or txtDisplay.Text = "" Or blnOperatorClicked Then
-                    txtDisplay.Text = "-"
+                If lblDisplay.Text = "0" Or lblDisplay.Text = "" Or blnOperatorClicked Then
+                    lblDisplay.Text = "-"
                     blnOperatorClicked = False
                 Else
                     btnSub.PerformClick()
